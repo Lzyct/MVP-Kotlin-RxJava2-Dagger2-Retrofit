@@ -1,8 +1,8 @@
 package com.tuxdev.books.presentation.books
 
 import android.app.Activity
-import com.anandahospital.myanandahospital.network.BookService
 import com.tuxdev.books.R
+import com.tuxdev.books.data.repository.BookRepository
 import com.tuxkdev.books.base.BasePresenter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -16,10 +16,10 @@ import javax.inject.Inject
  **********************************************
  * © 2017 | All Right Reserved
  */
-class BooksPresenter @Inject constructor(private val bookService: BookService, private val activity: Activity) : BasePresenter<BooksView.View>(), BooksView.Presenter {
+class BooksPresenter @Inject constructor(private val bookRepository: BookRepository, private val activity: Activity) : BasePresenter<BooksView.View>(), BooksView.Presenter {
 
     override fun getBooks(query: String) {
-        composite.add(bookService.getBooks(query)
+        composite.add(bookRepository.getBooks(query)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe { mView()?.onLoading(true) }
